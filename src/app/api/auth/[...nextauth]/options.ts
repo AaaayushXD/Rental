@@ -5,6 +5,7 @@ import bcrypt from "bcrypt";
 import { dbConnect } from "@/db/dbConnect";
 import { ApiError } from "@/helpers/ApiError";
 import UserModel from "@/models/User";
+import { generateTokens } from "@/helpers/tokens";
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -42,6 +43,16 @@ export const authOptions: NextAuthOptions = {
             user.password
           );
           if (isValidUser) {
+            const { refreshToken } = await generateTokens(
+              user._id.toString(),
+              user.role
+            );
+            user.refreshToken = refreshToken;
+            await user.updateOne({
+              $set: {
+                refreshToken: refreshToken,
+              },
+            });
             return user;
           } else {
             throw new ApiError(
