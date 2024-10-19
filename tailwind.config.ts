@@ -59,6 +59,9 @@ const config: Config = {
       fontFamily: {
         sans: ["var(--font-rubik)"],
       },
+      minHeight: {
+        mobNavbar: "calc(100vh - 100px",
+      },
     },
   },
   plugins: [require("tailwindcss-animate")],

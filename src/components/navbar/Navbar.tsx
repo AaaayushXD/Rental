@@ -1,15 +1,55 @@
 "use client";
 import Image from "next/image";
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import { BellIcon, Menu, X } from "lucide-react";
+import {
+  Banknote,
+  BellIcon,
+  LayoutDashboard,
+  LogOut,
+  Menu,
+  MessageCircle,
+  Ticket,
+  X,
+} from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const navRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (ev: MouseEvent) => {
+      if (
+        isOpen &&
+        navRef.current &&
+        !navRef.current.contains(ev.target as Node)
+      ) {
+        setIsOpen((prev) => !prev);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isOpen]);
   return (
     <div className="w-full h-[85px] px-8 py-2 flex-nowrap  flex justify-between items-center border-b-2 relative select-none">
       <div className="flex justify-start items-center gap-8 flex-nowrap ">
+        {isOpen ? (
+          <X
+            size={"32px"}
+            className="hover:scale-110 cursor-pointer lg:hidden"
+            color="red"
+            onClick={() => setIsOpen(false)}
+          />
+        ) : (
+          <Menu
+            size={"32px"}
+            className="hover:scale-110 cursor-pointer lg:hidden"
+            onClick={() => setIsOpen(true)}
+          />
+        )}
         <Image
           alt="logo"
           src={"/logo_black.png"}
@@ -45,49 +85,66 @@ const Navbar = () => {
           </Link>
         </div>
         {isOpen && (
-          <div className="absolute bottom-[-150px] bg-gray-50 left-0 p-5 w-full text-center text-sm font-light flex flex-col gap-3 lg:hidden">
-            <Link
-              href={"/dashboard"}
-              className="hover:text-primary-light cursor-pointer hover:underline"
-            >
-              Dashboard
-            </Link>
-            <Link
-              href={"/rents"}
-              className="hover:text-primary-light cursor-pointer hover:underline"
-            >
-              Rents
-            </Link>
-            <Link
-              href={"/tickets"}
-              className="hover:text-primary-light cursor-pointer hover:underline"
-            >
-              Complaints
-            </Link>
-            <Link
-              href={"/message"}
-              className="hover:text-primary-light cursor-pointer hover:underline"
-            >
-              Messages
-            </Link>
+          <div
+            className="lg:hidden  fixed top-[85px] left-0 px-5 py-10 w-[250px] flex flex-col items-start gap-10 justify-around flex-grow min-h-[calc(100vh-85px)] border-r-2 border-border bg-background z-10"
+            ref={navRef}
+          >
+            <div className="flex flex-col justify-start items-start gap-20">
+              <div className="flex justify-start items-center gap-5">
+                <Avatar>
+                  <AvatarImage
+                    src="https://github.com/shadcn.png"
+                    alt="User avatar"
+                    width={70}
+                  />
+                  <AvatarFallback></AvatarFallback>
+                </Avatar>
+                <div className="flex flex-col justify-center items-start flex-nowrap">
+                  <p className="font-medium flex-nowrap text-sm">
+                    Aayush Lamichhane
+                  </p>
+                  <p className="font-light text-[14px]">9813425299</p>
+                </div>
+              </div>
+              <div className="flex flex-col gap-10 justify-center items-start flex-grow font-light">
+                <Link
+                  href={"/dashboard"}
+                  className="hover:text-primary-light cursor-pointer hover:underline flex gap-3 justify-center items-center"
+                >
+                  <LayoutDashboard />
+                  Dashboard
+                </Link>
+                <Link
+                  href={"/rents"}
+                  className="hover:text-primary-light cursor-pointer hover:underline flex gap-3 justify-center items-center"
+                >
+                  <Banknote />
+                  Rents
+                </Link>
+                <Link
+                  href={"/tickets"}
+                  className="hover:text-primary-light cursor-pointer hover:underline flex gap-3 justify-center items-center"
+                >
+                  <Ticket />
+                  Complaints
+                </Link>
+                <Link
+                  href={"/message"}
+                  className="hover:text-primary-light cursor-pointer hover:underline flex gap-3 justify-center items-center"
+                >
+                  <MessageCircle />
+                  Messages
+                </Link>
+              </div>
+            </div>
+            <div className="text-black justify-center items-center gap-5 flex cursor-pointer">
+              <LogOut />
+              <p className="font-light">LogOut</p>
+            </div>
           </div>
         )}
       </div>
       <div className="flex justify-center items-center gap-5 font-light">
-        {isOpen ? (
-          <X
-            size={"32px"}
-            className="hover:scale-110 cursor-pointer lg:hidden"
-            color="red"
-            onClick={() => setIsOpen(false)}
-          />
-        ) : (
-          <Menu
-            size={"32px"}
-            className="hover:scale-110 cursor-pointer lg:hidden"
-            onClick={() => setIsOpen(true)}
-          />
-        )}
         <BellIcon />
         <Avatar>
           <AvatarImage
@@ -103,3 +160,7 @@ const Navbar = () => {
 };
 
 export default Navbar;
+
+/*
+          
+*/
