@@ -27,7 +27,33 @@
     --chart-3: 197 37% 24%;
     --chart-4: 43 74% 66%;
     --chart-5: 27 87% 67%;
-    --radius: 0.5rem
+    --radius: 0.5rem;
+
+    /* Brand palette */
+    --brand-primary: 205, 63%, 48%;
+    --brand-primary-content: 210, 75%, 98%;
+    --brand-primary-dark: 205, 62%, 38%;
+    --brand-primary-light: 205, 63%, 58%;
+
+    --brand-secondary: 160, 63%, 48%;
+    --brand-secondary-content: 0, 0%, 0%;
+    --brand-secondary-dark: 160, 62%, 38%;
+    --brand-secondary-light: 160, 63%, 58%;
+
+    --brand-background: 210, 7%, 94%;
+    --brand-foreground: 0, 0%, 98%;
+    --brand-border: 210, 6%, 87%;
+
+    --brand-copy: 195, 5%, 15%;
+    --brand-copy-light: 204, 5%, 40%;
+    --brand-copy-lighter: 205, 5%, 55%;
+
+    --brand-success: 120, 63%, 48%;
+    --brand-warning: 60, 63%, 48%;
+    --brand-error: 0, 63%, 48%;
+    --brand-success-content: 0, 0%, 0%;
+    --brand-warning-content: 0, 0%, 0%;
+    --brand-error-content: 0, 75%, 98%;
   }
   .dark {
     --background: 0 0% 3.9%;
@@ -53,7 +79,7 @@
     --chart-2: 160 60% 45%;
     --chart-3: 30 80% 55%;
     --chart-4: 280 65% 60%;
-    --chart-5: 340 75% 55%
+    --chart-5: 340 75% 55%;
   }
 }
 @layer base {
@@ -64,4 +90,3 @@
     @apply bg-background text-foreground;
   }
 }
-

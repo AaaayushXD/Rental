@@ -50,6 +50,25 @@ const config: Config = {
           "4": "hsl(var(--chart-4))",
           "5": "hsl(var(--chart-5))",
         },
+        brandPrimary: {
+          DEFAULT: "hsl(var(--brand-primary))",
+          light: "hsl(var(--brand-primary-light))",
+          dark: "hsl(var(--brand-primary-dark))",
+          content: "hsl(var(--brand-primary-content))",
+        },
+        brandSecondary: {
+          DEFAULT: "hsl(var(--brand-secondary))",
+          light: "hsl(var(--brand-secondary-light))",
+          dark: "hsl(var(--brand-secondary-dark))",
+          content: "hsl(var(--brand-secondary-content))",
+        },
+        brandBackground: "hsl(var(--brand-background))",
+        brandForeground: "hsl(var(--brand-foreground))",
+        brandCopy: {
+          DEFAULT: "hsl(var(--brand-copy))",
+          light: "hsl(var(--brand-copy-light))",
+          lighter: "hsl(var(--brand-copy-lighter))",
+        },
       },
       borderRadius: {
         lg: "var(--radius)",
