@@ -1,5 +1,9 @@
+import AnnoucementCard from "@/components/cards/AnnoucementCard";
+import RentCard from "@/components/cards/RentCard";
+import TicketCard from "@/components/cards/TicketCard";
 import Footer from "@/components/footer/Footer";
 import Navbar from "@/components/navbar/Navbar";
+import { PlusCircle } from "lucide-react";
 import Image from "next/image";
 import React from "react";
 
@@ -85,7 +89,57 @@ const Page = () => {
               />
             </div>
           </div>
-          <div></div>
+          <div className="flex flex-col lg:flex-row justify-start gap-14 lg:gap-8 w-full flex-grow">
+            <div className="flex justify-between items-center gap-5  flex-grow ">
+              <div className="bg-brandCopy-lighter p-5 rounded-lg flex flex-col gap-3">
+                <p className="font-medium text-sm tracking-wide  ">Water</p>
+                <p className="text-brandCopy-lighter">
+                  Rs{" "}
+                  <span className="text-xl font-extrabold text-brandCopy">
+                    100
+                  </span>
+                  <span className="text-sm"> /month</span>
+                </p>
+              </div>
+              <div>Electricity</div>
+              <div>Utility</div>
+            </div>
+            <div className="flex flex-col justify-start items-start gap-5 border p-3 rounded-lg max-w-[900px]">
+              <h3 className="font-medium text-xl tracking-wider pl-3">
+                Annoucement
+              </h3>
+              <div className="flex flex-col gap-2 justify-start items-start max-h-[800px] overflow-y-auto">
+                <AnnoucementCard />
+                <AnnoucementCard />
+              </div>
+            </div>
+          </div>
+          <div className="flex lg:flex-row flex-col gap-14 lg:gap-8 justify-start items-start lg:justify-between">
+            <div className="bg-brandBackground p-3 rounded-lg flex flex-col gap-5 w-full max-w-[900px] flex-grow">
+              <h4 className="font-medium text-xl tracking-wide pl-3">
+                Payment History
+              </h4>
+              <div className="flex flex-col justify-start w-full gap-2 max-h-[600px] overflow-y-auto">
+                <RentCard />
+                <RentCard />
+              </div>
+            </div>
+            <div className="border p-3 rounded-lg flex flex-col gap-5 w-full max-w-[900px] flex-grow">
+              <div className="flex justify-between items-center gap-2">
+                <h4 className="font-medium text-xl tracking-wide pl-3">
+                  Complaints or Feedback
+                </h4>
+                <p className="text-xs flex gap-1 justify-center items-center p-2 bg-brandPrimary rounded text-brandPrimary-content font-medium hover:bg-brandPrimary-dark cursor-pointer">
+                  Create
+                  <PlusCircle size={15} />
+                </p>
+              </div>
+              <div className="flex flex-col justify-start w-full gap-2 max-h-[600px] overflow-y-auto ">
+                <TicketCard />
+                <TicketCard />
+              </div>
+            </div>
+          </div>
         </div>
       </div>
       <Footer />
