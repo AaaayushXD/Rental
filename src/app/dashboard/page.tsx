@@ -3,7 +3,7 @@ import RentCard from "@/components/cards/RentCard";
 import TicketCard from "@/components/cards/TicketCard";
 import Footer from "@/components/footer/Footer";
 import Navbar from "@/components/navbar/Navbar";
-import { PlusCircle } from "lucide-react";
+import { Droplets, Lightbulb, PlusCircle } from "lucide-react";
 import Image from "next/image";
 import React from "react";
 
@@ -90,9 +90,14 @@ const Page = () => {
             </div>
           </div>
           <div className="flex flex-col lg:flex-row justify-start gap-14 lg:gap-8 w-full flex-grow">
-            <div className="flex justify-between items-center gap-5  flex-grow ">
-              <div className="bg-brandCopy-lighter p-5 rounded-lg flex flex-col gap-3">
-                <p className="font-medium text-sm tracking-wide  ">Water</p>
+            <div className="flex justify-between items-center gap-5  flex-grow  p-5 rounded-lg max-w-[800px]">
+              <div className="p-5 rounded-md flex flex-col gap-3 border border-brandBackground">
+                <p className="font-medium text-sm tracking-wide flex justify-between items-center gap-2 ">
+                  Water
+                  <span className="text-brandPrimary-light">
+                    <Droplets />
+                  </span>
+                </p>
                 <p className="text-brandCopy-lighter">
                   Rs{" "}
                   <span className="text-xl font-extrabold text-brandCopy">
@@ -101,8 +106,36 @@ const Page = () => {
                   <span className="text-sm"> /month</span>
                 </p>
               </div>
-              <div>Electricity</div>
-              <div>Utility</div>
+              <div className="p-5 rounded-md flex flex-col gap-3 border border-brandBackground">
+                <p className="font-medium text-sm tracking-wide flex justify-between items-center gap-2 ">
+                  Electricity
+                  <span className="text-brandSecondary-light">
+                    <Lightbulb />
+                  </span>
+                </p>
+                <p className="text-brandCopy-lighter">
+                  Rs{" "}
+                  <span className="text-xl font-extrabold text-brandCopy">
+                    13
+                  </span>
+                  <span className="text-sm"> /meter</span>
+                </p>
+              </div>
+              <div className="p-5 rounded-md flex flex-col gap-3 border border-brandBackground">
+                <p className="font-medium text-sm tracking-wide flex justify-between items-center gap-2 ">
+                  Utility
+                  <span className="text-brandPrimary-light">
+                    <Droplets />
+                  </span>
+                </p>
+                <p className="text-brandCopy-lighter">
+                  Rs{" "}
+                  <span className="text-xl font-extrabold text-brandCopy">
+                    100
+                  </span>
+                  <span className="text-sm"> /month</span>
+                </p>
+              </div>
             </div>
             <div className="flex flex-col justify-start items-start gap-5 border p-3 rounded-lg max-w-[900px]">
               <h3 className="font-medium text-xl tracking-wider pl-3">
