@@ -4,9 +4,9 @@ export interface User {
   phone: string;
   password: string;
   role: Role;
-  totalPeople: number;
-  married: boolean;
-  children: number;
+  totalPeople?: number;
+  married?: boolean;
+  children?: number;
   refreshToken?: string;
   joined: string;
 }
