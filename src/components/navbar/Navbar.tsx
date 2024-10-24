@@ -2,19 +2,11 @@
 import Image from "next/image";
 import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import {
-  Banknote,
-  BellIcon,
-  LayoutDashboard,
-  LogOut,
-  Menu,
-  MessageCircle,
-  Ticket,
-  X,
-} from "lucide-react";
+import { BellIcon, LogOut, Menu, X } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
+import { NavbarProps } from "@/@types/Navbar";
 
-const Navbar = () => {
+const Navbar = ({ navbars }: NavbarProps) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const navRef = useRef<HTMLDivElement>(null);
 
@@ -59,30 +51,17 @@ const Navbar = () => {
           className="flex flex-nowrap justify-center items-center h-[70px] w-[120px]"
         />
         <div className="lg:flex gap-5 items-center justify-start text-sm text-copy font-light hidden ">
-          <Link
-            href={"/dashboard"}
-            className="hover:text-primary-light cursor-pointer"
-          >
-            Dashboard
-          </Link>
-          <Link
-            href={"/rents"}
-            className="hover:text-primary-light cursor-pointer"
-          >
-            Rents
-          </Link>
-          <Link
-            href={"/tickets"}
-            className="hover:text-primary-light cursor-pointer"
-          >
-            Complaints
-          </Link>
-          <Link
-            href={"/message"}
-            className="hover:text-primary-light cursor-pointer"
-          >
-            Message
-          </Link>
+          {navbars?.map((item, index) => (
+            <Link
+              href={"/" + item.link}
+              key={index}
+              className={
+                "hover:text-primary-light cursor-pointer" + ` ${item.classname}`
+              }
+            >
+              {item.name}
+            </Link>
+          ))}
         </div>
         {isOpen && (
           <div
@@ -107,34 +86,19 @@ const Navbar = () => {
                 </div>
               </div>
               <div className="flex flex-col gap-10 justify-center items-start flex-grow font-light">
-                <Link
-                  href={"/dashboard"}
-                  className="hover:text-primary-light cursor-pointer hover:underline flex gap-3 justify-center items-center"
-                >
-                  <LayoutDashboard />
-                  Dashboard
-                </Link>
-                <Link
-                  href={"/rents"}
-                  className="hover:text-primary-light cursor-pointer hover:underline flex gap-3 justify-center items-center"
-                >
-                  <Banknote />
-                  Rents
-                </Link>
-                <Link
-                  href={"/tickets"}
-                  className="hover:text-primary-light cursor-pointer hover:underline flex gap-3 justify-center items-center"
-                >
-                  <Ticket />
-                  Complaints
-                </Link>
-                <Link
-                  href={"/message"}
-                  className="hover:text-primary-light cursor-pointer hover:underline flex gap-3 justify-center items-center"
-                >
-                  <MessageCircle />
-                  Messages
-                </Link>
+                {navbars.map((item, index) => (
+                  <Link
+                    href={"/" + item.link}
+                    key={index}
+                    className={
+                      "hover:text-primary-light cursor-pointer hover:underline flex gap-3 justify-center items-center" +
+                      ` ${item.classname}`
+                    }
+                  >
+                    {item.icon}
+                    {item.name}
+                  </Link>
+                ))}
               </div>
             </div>
             <div className="text-black justify-center items-center gap-5 flex cursor-pointer">

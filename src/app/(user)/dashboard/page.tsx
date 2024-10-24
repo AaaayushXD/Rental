@@ -1,16 +1,14 @@
 import AnnoucementCard from "@/components/cards/AnnoucementCard";
 import RentCard from "@/components/cards/RentCard";
 import TicketCard from "@/components/cards/TicketCard";
-import Footer from "@/components/footer/Footer";
-import Navbar from "@/components/navbar/Navbar";
 import { Droplets, Lightbulb, PlusCircle } from "lucide-react";
 import Image from "next/image";
 import React from "react";
+import BoilerPlate from "../BoilerPlate";
 
 const Page = () => {
   return (
-    <div className="min-w-[100vw] w-full h-full min-h-screen text-brandCopy">
-      <Navbar />
+    <BoilerPlate>
       <div className="flex w-full h-full justify-center items-center p-5 bg-brandForeground ">
         <div className="max-w-[1800px] w-full  flex flex-col font-light gap-20">
           <div className="flex justify-start items-center gap-5 max-w-[600px]">
@@ -175,8 +173,7 @@ const Page = () => {
           </div>
         </div>
       </div>
-      <Footer />
-    </div>
+    </BoilerPlate>
   );
 };
 

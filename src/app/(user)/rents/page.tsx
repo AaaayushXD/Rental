@@ -1,6 +1,4 @@
 "use client";
-import Footer from "@/components/footer/Footer";
-import Navbar from "@/components/navbar/Navbar";
 import {
   Table,
   TableBody,
@@ -18,6 +16,7 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
+import BoilerPlate from "../BoilerPlate";
 
 const tableHeader = ["Id", "Amount", "Month", "Paid Date", "Reason"];
 const payments = [
@@ -45,8 +44,7 @@ const payments = [
 ];
 const Page = () => {
   return (
-    <div className="min-w-[100vw] w-full h-full min-h-screen text-brandCopy">
-      <Navbar />
+    <BoilerPlate>
       <div className="flex w-full h-full justify-center items-center p-5 bg-brandForeground">
         <div className="max-w-[1800px] w-full  flex flex-col font-light gap-6 pt-5">
           <h3 className="text-xl font-extrabold tracking-wider pl-3">
@@ -99,8 +97,7 @@ const Page = () => {
           </div>
         </div>
       </div>
-      <Footer />
-    </div>
+    </BoilerPlate>
   );
 };
 

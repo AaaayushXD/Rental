@@ -1,7 +1,4 @@
-"use client";
 import React from "react";
-import Footer from "@/components/footer/Footer";
-import Navbar from "@/components/navbar/Navbar";
 import MessagePreviewCard from "@/components/cards/MessagePreviewCard";
 import {
   ChevronLeft,
@@ -15,11 +12,11 @@ import { Avatar } from "@radix-ui/react-avatar";
 import { AvatarImage } from "@/components/ui/avatar";
 import { Separator } from "@/components/ui/separator";
 import MessageCard from "@/components/cards/MessageCard";
+import BoilerPlate from "../BoilerPlate";
 
 const Page = () => {
   return (
-    <div className="min-w-[90vw] w-full h-full min-h-screen text-brandCopy">
-      <Navbar />
+    <BoilerPlate>
       <div className="flex w-full h-full justify-center items-start p-5 bg-brandForeground overflow-x-hidden">
         <div className="max-w-[1800px] flex justify-start items-start gap-8 w-full overflow-x-hidden">
           <div className="w-full lg:max-w-[600px] flex flex-col font-light gap-10 pt-5 h-full ">
@@ -68,8 +65,7 @@ const Page = () => {
           </div>
         </div>
       </div>
-      <Footer />
-    </div>
+    </BoilerPlate>
   );
 };
 
