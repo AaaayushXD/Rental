@@ -1,10 +1,12 @@
 "use client";
 import React from "react";
 import BoilerPlate from "../BoilerPlate";
-import { DollarSign } from "lucide-react";
+import { DollarSign, PlusCircle } from "lucide-react";
 import { ChartContainer, type ChartConfig } from "@/components/ui/chart";
 import { Bar, BarChart } from "recharts";
 import RecentPayment from "@/components/cards/RecentPayment";
+import TicketCard from "@/components/cards/TicketCard";
+import AnnoucementCard from "@/components/cards/AnnoucementCard";
 
 const chartConfig = {
   desktop: {
@@ -129,8 +131,34 @@ const page = () => {
                 <RecentPayment />
               </div>
             </div>
-            <div>
-              {/* TODO */}
+          </div>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-5 justify-start items-start w-full">
+            <div className="border p-3 rounded-lg flex flex-col gap-5 w-full  flex-grow">
+              <div className="flex justify-between items-center gap-2">
+                <h4 className="font-medium text-xl tracking-wide pl-3">
+                  Complaints or Feedback
+                </h4>
+              </div>
+              <div className="flex flex-col justify-start w-full gap-2 max-h-[600px] overflow-y-auto ">
+                <TicketCard />
+                <TicketCard />
+              </div>
+            </div>
+            <div className="flex flex-col justify-start items-start gap-5 border p-3 rounded-lg  w-ful flex-grow">
+              <div className="w-full flex justify-between items-center gap-2">
+                <h3 className="font-medium text-xl tracking-wider pl-3">
+                  Annoucement
+                </h3>
+
+                <p className="text-xs flex gap-1 justify-center items-center p-2 bg-brandPrimary rounded text-brandPrimary-content font-medium hover:bg-brandPrimary-dark cursor-pointer">
+                  Create
+                  <PlusCircle size={15} />
+                </p>
+              </div>
+              <div className="flex flex-col gap-2 justify-start items-start max-h-[800px] overflow-y-auto">
+                <AnnoucementCard />
+                <AnnoucementCard />
+              </div>
             </div>
           </div>
         </div>
