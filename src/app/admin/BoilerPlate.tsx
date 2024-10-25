@@ -26,8 +26,8 @@ const navbar: NavbarProps[] = [
     icon: <Users />,
   },
   {
-    name: "Rooms",
-    link: "admin/rooms",
+    name: "Floors",
+    link: "admin/floors",
     icon: <Hotel />,
   },
   {
@@ -48,7 +48,7 @@ const navbar: NavbarProps[] = [
 ];
 const BoilerPlate = ({ children }: BoilerProps) => {
   return (
-    <div className="min-w-[90vw] w-full h-full min-h-screen text-brandCopy">
+    <div className="min-w-[90vw] w-full h-full min-h-screen text-brandCopy flex justify-center items-center flex-col">
       <Navbar navbars={navbar} />
       {children}
       <Footer />
