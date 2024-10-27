@@ -1,8 +1,10 @@
+"use client"
 import BoilerPlate from "@/app/admin/BoilerPlate";
 import Image from "next/image";
-import React from "react";
+import React, { useState } from "react";
 
 const Page = () => {
+  const [isOpen, setIsOpen] = useState<boolean>(false);
   return (
     <BoilerPlate>
       <div className="w-full max-w-[1500px] flex flex-col justify-start items-start p-5 font-light ">

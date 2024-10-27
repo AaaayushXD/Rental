@@ -1,28 +1,23 @@
-import { Room } from "@/@types/Room";
+import { Floor } from "@/@types/Floor";
 import { dbConnect } from "@/db/dbConnect";
 import { ApiError } from "@/helpers/ApiError";
 import { ApiResponse } from "@/helpers/ApiResponse";
-import RoomModel from "@/models/Room";
+import FloorModel from "@/models/Floor";
 
 export async function POST(req: Request) {
   await dbConnect();
   try {
-    const { floor, roomNo, isBooked, rentId, size, tenantId }: Room =
-      await req.json();
-    const newRoom = new RoomModel({
-      floor,
-      roomNo,
-      isBooked,
-      rentId,
-      size,
-      tenantId,
+    const { image, title }: Floor = await req.json();
+    const newFloor = new FloorModel({
+      title,
+      image,
     });
-    await newRoom.save();
+    await newFloor.save();
     return Response.json(
       new ApiResponse(
         201,
-        { data: newRoom },
-        "New room data inserted succesfully",
+        { data: newFloor },
+        "New Floor inserted succesfully",
         true
       )
     );
@@ -30,7 +25,7 @@ export async function POST(req: Request) {
     return Response.json(
       new ApiError(
         500,
-        "Error adding new room detail.",
+        "Error adding new floor detail.",
         null,
         error as string[],
         undefined,

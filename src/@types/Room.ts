@@ -1,6 +1,6 @@
 export interface Room {
   roomNo: number;
-  floorNo: number;
+  floor: string;
   size: RoomSize;
   rentId: string;
   isBooked: boolean;
