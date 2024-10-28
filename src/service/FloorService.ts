@@ -29,6 +29,9 @@ export const getFloorsDetailService = async () => {
 export const deleteFloorService = async (id: string) => {
   try {
     const response = await axios.delete<ApiResponse>(`/api/floor/remove/${id}`);
+    if (response.data.statusCode !== 200) {
+      throw new Error("Something went wrong.");
+    }
     return response;
   } catch (error) {
     const axiosError = error as AxiosError<ApiResponse>;
