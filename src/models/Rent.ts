@@ -22,7 +22,7 @@ const RentSchema = new Schema<Rent>({
 });
 
 const RentModel =
-  (mongoose.models.Room as mongoose.Model<Rent>) ||
+  (mongoose.models.Rent as mongoose.Model<Rent>) ||
   mongoose.model<Rent>("Rent", RentSchema);
 
 export default RentModel;

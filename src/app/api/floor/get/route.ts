@@ -8,12 +8,7 @@ export async function GET() {
   try {
     const floor = await FloorModel.find();
     return Response.json(
-      new ApiResponse(
-        200,
-        { data: floor },
-        "Floor details fetched successfully.",
-        true
-      )
+      new ApiResponse(200, floor, "Floor details fetched successfully.", true)
     );
   } catch (error) {
     return Response.json(

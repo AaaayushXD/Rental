@@ -13,7 +13,7 @@ const FloorSchema = new Schema<Floor>({
 });
 
 const FloorModel =
-  (mongoose.models.Room as mongoose.Model<Floor>) ||
+  (mongoose.models.Floor as mongoose.Model<Floor>) ||
   mongoose.model<Floor>("Floor", FloorSchema);
 
 export default FloorModel;

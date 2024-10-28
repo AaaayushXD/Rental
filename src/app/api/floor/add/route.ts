@@ -14,12 +14,7 @@ export async function POST(req: Request) {
     });
     await newFloor.save();
     return Response.json(
-      new ApiResponse(
-        201,
-        { data: newFloor },
-        "New Floor inserted succesfully",
-        true
-      )
+      new ApiResponse(201, newFloor, "New Floor inserted succesfully", true)
     );
   } catch (error) {
     return Response.json(

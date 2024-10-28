@@ -2,9 +2,9 @@ import { Room } from "@/@types/Room";
 import mongoose, { Schema } from "mongoose";
 
 const RoomSchema = new Schema<Room>({
-  floorNo: {
-    type: Number,
-    required: [true, "Floor number need to be specified."],
+  floor: {
+    type: String,
+    required: [true, "Floor title need to be specified."],
   },
   roomNo: {
     type: Number,

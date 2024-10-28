@@ -25,42 +25,55 @@ import {
 } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Loader } from "lucide-react";
+import { Loader, Trash } from "lucide-react";
 import { storeImageInFirebase } from "@/helpers/storage";
 import { useToast } from "@/hooks/use-toast";
 import {
   addFloorService,
+  deleteFloorService,
+  getFloorsDetailService,
 } from "@/service/FloorService";
+import { FloorDetail } from "@/@types/Floor";
 
 const Page = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [image, setImage] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string>("");
-  // const [floors, setFloors] = useState<FloorDetail>([]);
+  const [floors, setFloors] = useState<FloorDetail[]>([]);
 
   const { toast } = useToast();
 
-  // useEffect(() => {
-  //   const fetchFloors = async () => {
-  //     try {
-  //       const response = await getFloorsDetailService();
-  //       if (response.status !== 200) {
-  //         throw new Error("Error getting floors information.");
-  //       }
-  //       const floorsDetail = response!.data.data;
-  //       setFloors(floorsDetail);
-  //     } catch (error) {
-  //       toast({
-  //         title: "No image found",
-  //         description: `Please select an image for creatinng new floor. ${error}`,
-  //         draggable: true,
-  //         variant: "destructive",
-  //       });
-  //     }
-  //   };
-  //   fetchFloors();
-  // }, []);
+  //* GET floor data from database
+  useEffect(() => {
+    const fetchFloors = async () => {
+      try {
+        const response = await getFloorsDetailService();
+        if (response.status !== 200) {
+          throw new Error("Error getting floors information.");
+        }
 
+        if (response && "data" in response) {
+          const floorDetail = response.data.data as FloorDetail[];
+          setFloors(floorDetail);
+        } else if (response && response.isAxiosError) {
+          throw new Error("Axios Error: Something went wrong" + response);
+        } else {
+          throw new Error("Error getting floors information.");
+        }
+      } catch (error) {
+        toast({
+          title: "Failed fetching floor detail.",
+          description: `Something went wrong getting floor information.\n${error}`,
+          draggable: true,
+          variant: "destructive",
+        });
+      }
+    };
+    fetchFloors();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  //* Add new floor
   const form = useForm<z.infer<typeof floorSchema>>({
     resolver: zodResolver(floorSchema),
     defaultValues: {
@@ -91,10 +104,15 @@ const Page = () => {
     }
     try {
       const imageUrl = await storeImageInFirebase(image, "floor");
-      await addFloorService({
+      const response = await addFloorService({
         title: data.title,
         image: imageUrl,
       });
+
+      if (response && "data" in response) {
+        const newFloor = response.data.data as FloorDetail;
+        setFloors([...floors, newFloor]);
+      }
       toast({
         title: "Added Successfully.",
         description: "Floor detail added successfully.",
@@ -114,11 +132,34 @@ const Page = () => {
       form.setValue("title", "");
     }
   };
+
+  //* DELETE floor detail
+  const handleDelete = async (floorId: string) => {
+    try {
+      const response = await deleteFloorService(floorId);
+      if (response && "data" in response) {
+        const newFloors = floors.filter((floor) => floor._id !== floorId);
+        setFloors(newFloors);
+      }
+      toast({
+        title: "Removed Successfully.",
+        description: "Floor detail removed successfully.",
+        draggable: true,
+      });
+    } catch (error) {
+      toast({
+        title: "Error deleting floor detail.",
+        description: `Something went wrong while deleting floor detail.\n${error}`,
+        draggable: true,
+        variant: "destructive",
+      });
+    }
+  };
   return (
     <BoilerPlate>
       <div className="w-full max-w-[1500px] flex flex-col justify-start items-start p-5 font-light ">
         <div className="w-full flex justify-between px-3 pt-10 items-center">
-          <h2 className="text-2xl font-extrabold tracking-wide">Floors</h2>
+          <h2 className="text-2xl font-extrabold tracking-wide px-1">Floors</h2>
           <Dialog>
             <DialogTrigger>
               <p className="flex  gap-1 items-center justify-start p-2 text-sm hover:bg-brandPrimary-dark cursor-pointer bg-brandPrimary text-brandPrimary-content rounded">
@@ -198,42 +239,32 @@ const Page = () => {
           </Dialog>
         </div>
         <div className="flex flex-col justify-start items-start px-3  py-5 gap-8">
-          <h4 className="font-light tracking-wider text-xl">
+          <h4 className="font-light tracking-wider text-lg px-1 ">
             Select a floor:{" "}
           </h4>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-center justify-between">
-            <Link
-              href={"/admin/floors/ground"}
-              className="border px-5 py-8 rounded-lg w-full flex flex-grow relative h-full hover:bg-[#0c0b0b57]"
-            >
-              <Image
-                src={"/ground_floor.png"}
-                alt="ground floor"
-                className="w-full h-full flex flex-grow items-center z-[-1]"
-                width={"500"}
-                height={"300"}
-              />
-              <p className="text-5xl text-nowrap flex flex-col gap-3 font-extrabold pl-5 pr-9 absolute top-0 left-0 rounded-lg w-full h-full bg-[#0c0b0b57] justify-center items-center text-brandPrimary-content z-10 tracking-wider">
-                Ground Floor
-                <span className="font-light text-lg">Total rooms: 4</span>
-              </p>
-            </Link>
-            <Link
-              href={"/admin/floors/first"}
-              className="border px-5 py-8 rounded-lg w-full flex flex-grow relative h-full hover:bg-[#0c0b0b57]"
-            >
-              <Image
-                src={"/first_floor.png"}
-                alt="ground floor"
-                className="w-full h-full flex flex-grow items-center z-[-1]"
-                width={"500"}
-                height={"300"}
-              />
-              <p className="text-5xl text-nowrap flex flex-col gap-3 font-extrabold pl-5 pr-9 absolute top-0 left-0 rounded-lg w-full h-full bg-[#0c0b0b57] justify-center items-center text-brandPrimary-content z-10 tracking-wider">
-                First Floor
-                <span className="font-light text-lg">Total rooms: 5</span>
-              </p>
-            </Link>
+            {floors?.map((floor, index) => (
+              <Link
+                key={index}
+                href={"/admin/floors/ground"}
+                className="border px-5 py-8 rounded-lg w-full flex flex-grow relative h-full hover:bg-overlay-hover group/floor "
+              >
+                <Image
+                  src={`${floor.image}`}
+                  alt={`${floor.title}`}
+                  className="w-full h-full flex flex-grow items-center z-[-1]"
+                  width={"500"}
+                  height={"300"}
+                />
+                <p className="text-5xl text-nowrap flex flex-col gap-3 font-extrabold pl-5 pr-9 absolute top-0 left-0 rounded-lg w-full h-full bg-overlay justify-center items-center text-brandPrimary-content z-10 tracking-wider">
+                  {floor.title}
+                  <span className="font-light text-lg">Total rooms: 4</span>
+                </p>
+                <div className="p-2 bg-destructive text-destructive-foreground absolute rounded-md top-5 right-10 z-20 hover:bg-destructive-hover invisible group-hover/floor:visible " >
+                  <Trash />
+                </div>
+              </Link>
+            ))}
           </div>
         </div>
       </div>

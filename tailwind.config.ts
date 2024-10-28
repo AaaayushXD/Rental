@@ -39,6 +39,7 @@ const config: Config = {
         destructive: {
           DEFAULT: "hsl(var(--destructive))",
           foreground: "hsl(var(--destructive-foreground))",
+          hover: "hsl(var(--destructive-hover))",
         },
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
@@ -68,6 +69,10 @@ const config: Config = {
           DEFAULT: "hsl(var(--brand-copy))",
           light: "hsl(var(--brand-copy-light))",
           lighter: "hsl(var(--brand-copy-lighter))",
+        },
+        overlay: {
+          DEFAULT: "hsla(var(--overlay), 0.34)",
+          hover: "hsla(var(--overlay), 0.2)",
         },
       },
       borderRadius: {

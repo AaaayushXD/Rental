@@ -26,7 +26,7 @@ const Navbar = ({ navbars }: NavbarProps) => {
     };
   }, [isOpen]);
   return (
-    <div className="w-full h-[85px] px-8 py-2 flex-nowrap  flex justify-between items-center border-b-2 relative select-none">
+    <div className="w-full h-[85px] px-8 py-2 flex-nowrap  flex justify-between items-center border-b-2 relative select-none z-50">
       <div className="flex justify-start items-center gap-8 flex-nowrap ">
         {isOpen ? (
           <X

@@ -3,11 +3,10 @@ import { ApiError } from "@/helpers/ApiError";
 import { ApiResponse } from "@/helpers/ApiResponse";
 import FloorModel from "@/models/Floor";
 
-export async function DELETE(req: Request) {
+export async function DELETE({ params }: { params: { id: string } }) {
   await dbConnect();
   try {
-    const { floorId } = await req.json();
-    const floor = await FloorModel.findById(floorId);
+    const floor = await FloorModel.findById(params.id);
     if (!floor) {
       throw new ApiError(
         404,
@@ -20,12 +19,7 @@ export async function DELETE(req: Request) {
     }
     await floor?.deleteOne();
     return Response.json(
-      new ApiResponse(
-        200,
-        { data: floor },
-        "Floor detail succesfully removed.",
-        true
-      )
+      new ApiResponse(200, floor, "Floor detail succesfully removed.", true)
     );
   } catch (error) {
     return Response.json(

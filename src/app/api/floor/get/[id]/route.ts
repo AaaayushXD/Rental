@@ -10,7 +10,7 @@ export async function GET({ params }: { params: { id: string } }) {
     return Response.json(
       new ApiResponse(
         200,
-        { data: floor },
+        floor ? floor : [null],
         "Floor detail fetched successfully.",
         true
       )
