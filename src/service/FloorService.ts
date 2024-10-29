@@ -26,6 +26,16 @@ export const getFloorsDetailService = async () => {
   }
 };
 
+export const getFloorDetailService = async (id: string) => {
+  try {
+    const response = await axios.get<ApiResponse>(`/api/floor/get/${id}`);
+    return response;
+  } catch (error) {
+    const axiosError = error as AxiosError<ApiResponse>;
+    return axiosError;
+  }
+};
+
 export const deleteFloorService = async (id: string) => {
   try {
     const response = await axios.delete<ApiResponse>(`/api/floor/remove/${id}`);

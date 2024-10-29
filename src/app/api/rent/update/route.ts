@@ -7,13 +7,12 @@ import RentModel from "@/models/Rent";
 export async function PUT(req: Request) {
   await dbConnect();
   try {
-    const { electricity, misc, price, roomId, water }: Rent = await req.json();
+    const { electricity, price, roomId, water }: Rent = await req.json();
 
     const updatedFields: Partial<Rent> = {};
 
     if (electricity !== undefined) updatedFields.electricity = electricity;
     if (water !== undefined) updatedFields.water = water;
-    if (misc !== undefined) updatedFields.misc = misc;
     if (price !== undefined) updatedFields.price = price;
 
     const rent = await RentModel.findOneAndUpdate(
@@ -29,7 +28,7 @@ export async function PUT(req: Request) {
     return Response.json(
       new ApiResponse(
         201,
-        { data: rent },
+        rent ? rent : [],
         "Rent detail updated successfully",
         true
       )

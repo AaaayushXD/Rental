@@ -18,12 +18,9 @@ const RoomSchema = new Schema<Room>({
     type: Boolean,
     default: false,
   },
-  rentId: {
+  image: {
     type: String,
-    required: [true, "Rent detail ID of room is required."],
-  },
-  tenantId: {
-    type: String,
+    required: [true, "Please provide the room image."],
   },
 });
 

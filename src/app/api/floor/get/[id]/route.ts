@@ -3,7 +3,7 @@ import { ApiError } from "@/helpers/ApiError";
 import { ApiResponse } from "@/helpers/ApiResponse";
 import FloorModel from "@/models/Floor";
 
-export async function GET({ params }: { params: { id: string } }) {
+export async function GET(_: Request, { params }: { params: { id: string } }) {
   await dbConnect();
   try {
     const floor = await FloorModel.findById(params.id);

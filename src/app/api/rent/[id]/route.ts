@@ -3,7 +3,7 @@ import { ApiError } from "@/helpers/ApiError";
 import { ApiResponse } from "@/helpers/ApiResponse";
 import RentModel from "@/models/Rent";
 
-export async function GET({ params }: { params: { id: string } }) {
+export async function GET(_: Request, { params }: { params: { id: string } }) {
   await dbConnect();
   try {
     const rentOfARoom = await RentModel.findOne({
@@ -12,7 +12,7 @@ export async function GET({ params }: { params: { id: string } }) {
     return Response.json(
       new ApiResponse(
         200,
-        { data: rentOfARoom },
+        rentOfARoom ? rentOfARoom : [],
         "Rent detail of a room successfully fetched.",
         true
       )

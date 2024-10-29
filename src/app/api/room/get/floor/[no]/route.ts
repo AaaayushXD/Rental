@@ -3,19 +3,17 @@ import { ApiError } from "@/helpers/ApiError";
 import { ApiResponse } from "@/helpers/ApiResponse";
 import RoomModel from "@/models/Room";
 
-export async function GET({ params }: { params: { uid: string } }) {
+export async function GET(_: Request, { params }: { params: { no: string } }) {
   await dbConnect();
   try {
     const room = await RoomModel.find({
-      tenantId: params.uid,
+      floor: `${params.no}`,
     });
+    if (!room) {
+      throw new ApiError(404, "Rooms not found.");
+    }
     return Response.json(
-      new ApiResponse(
-        200,
-        { data: room },
-        "Room detail fetched successfully.",
-        true
-      )
+      new ApiResponse(200, room, "Room detail fetched successfully.", true)
     );
   } catch (error) {
     return Response.json(

@@ -7,25 +7,19 @@ import RentModel from "@/models/Rent";
 export async function POST(req: Request) {
   await dbConnect();
   try {
-    const { roomId, price, water, electricity, misc }: Rent = await req.json();
+    const { roomId, price, water, electricity }: Rent = await req.json();
     const rentDetail = new RentModel({
       roomId,
       price,
       water,
       electricity,
-      misc,
     });
     await rentDetail.save();
     return Response.json(
-      new ApiResponse(
-        201,
-        { data: rentDetail },
-        "Rent detail added successfully.",
-        true
-      )
+      new ApiResponse(201, rentDetail, "Rent detail added successfully.", true)
     );
   } catch (error) {
-    return  new ApiError(
+    return new ApiError(
       500,
       "Error adding rent detail.",
       null,

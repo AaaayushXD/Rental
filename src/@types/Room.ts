@@ -2,12 +2,15 @@ export interface Room {
   roomNo: number;
   floor: string;
   size: RoomSize;
-  rentId: string;
   isBooked: boolean;
-  tenantId?: string;
+  image: string;
 }
 
 export interface RoomSize {
   width: number;
   height: number;
+}
+
+export interface RoomData extends Room {
+  _id: string;
 }

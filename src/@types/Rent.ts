@@ -3,10 +3,8 @@ export interface Rent {
   price: number;
   electricity: number;
   water: number;
-  misc: ExtraRent | ExtraRent[];
 }
 
-interface ExtraRent {
-  amount: number;
-  reason: string;
+export interface RentDetail extends Rent {
+  _id: string;
 }

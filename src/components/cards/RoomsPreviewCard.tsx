@@ -2,8 +2,12 @@ import Image from "next/image";
 import React from "react";
 import { Button } from "../ui/button";
 import Link from "next/link";
+import { RoomData } from "@/@types/Room";
 
-const RoomsPreviewCard = () => {
+interface RoomsPreviewProps {
+  room: RoomData;
+}
+const RoomsPreviewCard = (props: RoomsPreviewProps) => {
   return (
     <div className="flex flex-col justify-start items-start gap-5 border p-5 rounded-md">
       <Image
@@ -14,9 +18,9 @@ const RoomsPreviewCard = () => {
         className="w-full"
       />
       <p className="font-medium">
-        Room No: <span>101</span>
+        Room No: <span>{props.room.roomNo}</span>
       </p>
-      <Link href={"/admin/floors/rooms/101"}>
+      <Link href={`/admin/floors/rooms/${props.room._id}`}>
         <Button className="w-full bg-brandPrimary hover:bg-brandPrimary-dark">
           View Detail
         </Button>

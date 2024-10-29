@@ -23,7 +23,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-// import { Skeleton } from "@/components/ui/skeleton";
+import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Loader, Trash } from "lucide-react";
@@ -41,7 +41,7 @@ const Page = () => {
   const [image, setImage] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string>("");
   const [floors, setFloors] = useState<FloorDetail[]>([]);
-  // const [isFetching, setIsFetching] = useState<boolean>(false);
+  const [isFetching, setIsFetching] = useState<boolean>(false);
 
   const { toast } = useToast();
 
@@ -71,7 +71,9 @@ const Page = () => {
           variant: "destructive",
         });
       } finally {
-        setIsFetching(false);
+        setTimeout(() => {
+          setIsFetching(false);
+        }, 3000);
       }
     };
     fetchFloors();
@@ -248,38 +250,49 @@ const Page = () => {
             Select a floor:{" "}
           </h4>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-center justify-between">
-            {floors?.map((floor) => (
-              <div
-                className="w-full  h-full relative hello group/floor "
-                key={floor._id}
-              >
-                <Link
-                  href={`/admin/floors/${floor._id}`}
-                  className="border px-5 py-8 rounded-lg w-full flex flex-grow  h-full hover:bg-overlay-hover "
-                >
-                  <Image
-                    src={`${floor.image}`}
-                    alt={`${floor.title}`}
-                    className="w-full h-full flex flex-grow items-center z-[-1]"
-                    width={"500"}
-                    height={"300"}
-                  />
-                  <p className="text-5xl text-nowrap flex flex-col gap-3 font-extrabold pl-5 pr-9 absolute top-0 left-0 rounded-lg w-full h-full bg-overlay justify-center items-center text-brandPrimary-content z-10 tracking-wider">
-                    {floor.title}
-                    <span className="font-light text-lg">Total rooms: 4</span>
-                  </p>
-                </Link>
-                <Button
-                  className="p-3 bg-destructive text-destructive-foreground absolute rounded-md top-5 right-10 z-20 hover:bg-destructive-hover invisible group-hover/floor:visible "
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handleDelete(floor._id);
-                  }}
-                >
-                  <Trash />
-                </Button>
+            {isFetching ? (
+              <div className="grid grid-cols-1 md:grid-cols-2 w-full h-full gap-5">
+                <Skeleton className="w-full h-full rounded-lg border min-w-[350px] min-h-[350px] " />
+                <Skeleton className="w-full h-full rounded-lg border min-w-[350px] min-h-[350px] " />
               </div>
-            ))}
+            ) : (
+              <>
+                {floors?.map((floor) => (
+                  <div
+                    className="w-full  h-full relative hello group/floor "
+                    key={floor._id}
+                  >
+                    <Link
+                      href={`/admin/floors/${floor._id}`}
+                      className="border px-5 py-8 rounded-lg w-full flex flex-grow  h-full hover:bg-overlay-hover "
+                    >
+                      <Image
+                        src={`${floor.image}`}
+                        alt={`${floor.title}`}
+                        className="w-full h-full flex flex-grow items-center z-[-1]"
+                        width={"500"}
+                        height={"300"}
+                      />
+                      <p className="text-5xl text-nowrap flex flex-col gap-3 font-extrabold pl-5 pr-9 absolute top-0 left-0 rounded-lg w-full h-full bg-overlay justify-center items-center text-brandPrimary-content z-10 tracking-wider">
+                        {floor.title}
+                        <span className="font-light text-lg">
+                          Total rooms: 4
+                        </span>
+                      </p>
+                    </Link>
+                    <Button
+                      className="p-3 bg-destructive text-destructive-foreground absolute rounded-md top-5 right-10 z-20 hover:bg-destructive-hover invisible group-hover/floor:visible "
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleDelete(floor._id);
+                      }}
+                    >
+                      <Trash />
+                    </Button>
+                  </div>
+                ))}
+              </>
+            )}
           </div>
         </div>
       </div>
