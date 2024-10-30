@@ -16,9 +16,6 @@ const RentSchema = new Schema<Rent>({
     type: Number,
     required: [true, "Provide rent amount."],
   },
-  misc: {
-    type: Object,
-  },
 });
 
 const RentModel =

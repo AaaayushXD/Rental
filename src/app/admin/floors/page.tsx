@@ -35,6 +35,7 @@ import {
   getFloorsDetailService,
 } from "@/service/FloorService";
 import { FloorDetail } from "@/@types/Floor";
+import { deleteAllRoomsOfAFloorService } from "@/service/RoomService";
 
 const Page = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -147,6 +148,16 @@ const Page = () => {
       if (response && "data" in response) {
         const newFloors = floors.filter((floor) => floor._id !== floorId);
         setFloors(newFloors);
+      }
+      await deleteAllRoomsOfAFloorService(floorId);
+      if (response && "data" in response) {
+        if (response.status !== 200) {
+          toast({
+            title: "Something went wrong.",
+            description: "Error while removing rooms of the floor.",
+            draggable: true,
+          });
+        }
       }
       toast({
         title: "Removed Successfully.",
@@ -275,9 +286,6 @@ const Page = () => {
                       />
                       <p className="text-5xl text-nowrap flex flex-col gap-3 font-extrabold pl-5 pr-9 absolute top-0 left-0 rounded-lg w-full h-full bg-overlay justify-center items-center text-brandPrimary-content z-10 tracking-wider">
                         {floor.title}
-                        <span className="font-light text-lg">
-                          Total rooms: 4
-                        </span>
                       </p>
                     </Link>
                     <Button

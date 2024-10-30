@@ -49,3 +49,18 @@ export const getRoomsBasedOnIdService = async (id: string) => {
     return axiosError;
   }
 };
+
+export const deleteAllRoomsOfAFloorService = async (id: string) => {
+  try {
+    const response = await axios.delete<ApiResponse>(
+      `/api/room/remove/floor/${id}`
+    );
+    if (Boolean(response.data.success) === false) {
+      throw new Error("Something went wrong while getting room detail.");
+    }
+    return response;
+  } catch (error) {
+    const axiosError = error as AxiosError<ApiResponse>;
+    return axiosError;
+  }
+};

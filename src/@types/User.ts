@@ -11,3 +11,13 @@ export interface User {
   joined: string;
 }
 export type Role = "admin" | "tenant";
+
+export interface UserDetail extends User {
+  _id: string;
+}
+
+export interface TenantRent {
+  uid: string;
+  roomId: string;
+  rent: number;
+}
