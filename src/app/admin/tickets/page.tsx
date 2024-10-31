@@ -1,6 +1,5 @@
 "use client";
 import TicketCard from "@/components/cards/TicketCard";
-import { Button } from "@/components/ui/button";
 import {
   Pagination,
   PaginationContent,
@@ -12,7 +11,6 @@ import {
 } from "@/components/ui/pagination";
 import { Tabs, TabsContent, TabsList } from "@/components/ui/tabs";
 import { TabsTrigger } from "@radix-ui/react-tabs";
-import { PlusCircle } from "lucide-react";
 import React from "react";
 import BoilerPlate from "../BoilerPlate";
 
@@ -23,10 +21,6 @@ const Page = () => {
         <div className="max-w-[1800px] w-full flex flex-col justify-start items-start gap-10 pt-8">
           <div className="flex w-full justify-between items-center gap-5">
             <h3 className="text-xl tracking-wider font-extrabold">Tickets</h3>
-            <Button className="text-xs flex gap-1 justify-center items-center p-2 bg-brandPrimary rounded text-brandPrimary-content font-medium hover:bg-brandPrimary-dark cursor-pointer">
-              Create
-              <PlusCircle size={15} />
-            </Button>
           </div>
           <div className="w-full flex flex-col gap-5 justify-start items-start">
             <Tabs defaultValue="pending" className="w-full">
