@@ -1,7 +1,6 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import BoilerPlate from "../BoilerPlate";
-import { PlusCircle } from "lucide-react";
 import {
   Table,
   TableBody,
@@ -39,7 +38,7 @@ const tableHeader = [
 const Page = () => {
   const [users, setUsers] = useState<UserDetail[]>([]);
   const [tenants, setTenant] = useState<TenantRent[]>([]);
-
+  const hasMounted = useRef(false);
   const { toast } = useToast();
   useEffect(() => {
     const fetchUser = async () => {
@@ -55,6 +54,7 @@ const Page = () => {
             );
             if (tenantResponse && "data" in tenantResponse) {
               const tenantInfo = tenantResponse.data.data as TenantDetail[];
+              if (!tenantInfo) return;
               tenantInfo.forEach(async (tenant) => {
                 if (!tenant) return;
                 const rentResponse = await getRentDetailService(tenant.roomId);
@@ -72,7 +72,6 @@ const Page = () => {
             }
           });
         }
-        console.log({ tenants });
       } catch (error) {
         toast({
           title: "Something went wrong.",
@@ -81,18 +80,17 @@ const Page = () => {
         });
       }
     };
-
-    fetchUser();
+    if (!hasMounted.current) {
+      hasMounted.current = true;
+      fetchUser();
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
     <BoilerPlate>
       <div className="w-full max-w-[1500px] flex flex-col justify-start items-start gap-10 font-light">
         <div className="w-full flex justify-between px-5 pt-10 items-center">
           <h2 className="text-2xl font-extrabold tracking-wide">Users</h2>
-          <p className="flex  gap-1 items-center justify-start p-2 text-sm hover:bg-brandPrimary-dark cursor-pointer bg-brandPrimary text-brandPrimary-content rounded">
-            <PlusCircle size={20} />
-            <span>Add</span>
-          </p>
         </div>
         <div className="w-full flex flex-col justify-start items-start gap-8 p-3">
           <ScrollArea className="w-full">
@@ -111,7 +109,13 @@ const Page = () => {
                     <TableCell>{data.phone}</TableCell>
                     <TableCell>{data.totalPeople}</TableCell>
                     <TableCell>{data.married ? "Yes" : "No"}</TableCell>
-                    <TableCell>Rs {}</TableCell>
+                    {tenants.map((user) => {
+                      return (
+                        <TableCell key={user.uid}>
+                          Rs {user.uid === data._id ? user.rent : "N/A"}
+                        </TableCell>
+                      );
+                    })}
                     <TableCell>{formatDate(new Date(data.joined))}</TableCell>
                   </TableRow>
                 ))}
