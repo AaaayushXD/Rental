@@ -115,8 +115,10 @@ const page = () => {
             </div>
             <Payments />
           </div>
-          <Complaints />
-          <Annoucement />
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-5 justify-start items-start w-full">
+            <Complaints />
+            <Annoucement />
+          </div>
         </div>
       </div>
     </BoilerPlate>

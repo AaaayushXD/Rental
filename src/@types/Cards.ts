@@ -29,3 +29,7 @@ export interface Annoucements {
   description: string;
   dateAndTime: string;
 }
+
+export interface AnnoucementDetail extends Annoucements {
+  _id: string;
+}
