@@ -20,6 +20,11 @@ export interface Tickets {
   time: string;
   username?: string;
 }
+
+export interface TicketDetail extends Tickets {
+  _id: string;
+}
+
 export interface AnnoucementCardProps {
   cards: Annoucements;
 }

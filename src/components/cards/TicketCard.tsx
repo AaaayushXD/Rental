@@ -1,8 +1,21 @@
 "use client";
-import { TicketCardProps } from "@/@types/Cards";
 import React from "react";
+import { TicketCardProps } from "@/@types/Cards";
+import { formatDate } from "@/helpers/DateFormatter";
 
 const TicketCard = ({ tickets }: TicketCardProps) => {
+  const severityColor = () => {
+    const severity = tickets.severity.toLowerCase().trim();
+    if (severity === "high") {
+      return "text-destructive";
+    } else if (severity === "low") {
+      return "text-yellow-600";
+    } else if (severity === "medium") {
+      return "text-green-600";
+    } else {
+      return "";
+    }
+  };
   return (
     <div className="border rounded-md p-3 flex w-full">
       <div className="flex flex-col justify-start items-start w-full">
@@ -10,7 +23,7 @@ const TicketCard = ({ tickets }: TicketCardProps) => {
           <h4 className="font-medium tracking-wide">{tickets.title}</h4>
           <p className="text-xs text-brandCopy-lighter">
             Severity:{" "}
-            <span className="text-destructive">{tickets.severity}</span>
+            <span className={severityColor()}>{tickets.severity}</span>
           </p>
         </div>
         <p className="text-sm text-brandCopy-light text-wrap flex  flex-col gap-1">
@@ -19,7 +32,9 @@ const TicketCard = ({ tickets }: TicketCardProps) => {
             {tickets.username && "-By: " + tickets.username}
           </span>
         </p>
-        <p className="pt-2 text-xs text-brandCopy-lighter">{tickets.time}</p>
+        <p className="pt-2 text-xs text-brandCopy-lighter">
+          {formatDate(new Date(tickets.time))}
+        </p>
       </div>
     </div>
   );

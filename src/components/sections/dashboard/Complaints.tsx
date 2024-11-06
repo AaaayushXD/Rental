@@ -1,19 +1,42 @@
 "use client";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import TicketCard from "@/components/cards/TicketCard";
-import { Tickets } from "@/@types/Cards";
-const ticketsData: Tickets = {
-  title: "Water shortage",
-  description:
-    "There wont be water supply today from 10 am to 11 am due to maintainance. Please manage it accordingly.",
-  severity: "High",
-  time: "06:10 Am",
-  username: "Aayush Lamichhane",
-};
+import { TicketDetail } from "@/@types/Cards";
+import { useToast } from "@/hooks/use-toast";
+import { getRecentTicket } from "@/service/ComplaintService";
 
 const Complaints = () => {
+  const [tickets, setTickets] = useState<TicketDetail[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const { toast } = useToast();
   useEffect(() => {
-    // fetch recent tickets
+    const fetchTikcets = async () => {
+      setIsLoading(true);
+      try {
+        const response = await getRecentTicket();
+        if (
+          response.status > 299 ||
+          response.data.statusCode > 299 ||
+          !response.data.success
+        ) {
+          throw new Error("Something went wrong.");
+        }
+        const ticketData = response.data.data as TicketDetail[];
+        setTickets(ticketData);
+      } catch (error) {
+        toast({
+          title: "Error",
+          description: "Something went wrong." + error,
+          variant: "destructive",
+          draggable: true,
+        });
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchTikcets();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
     <div className="border p-3 rounded-lg flex flex-col gap-5 w-full  flex-grow">
@@ -23,8 +46,18 @@ const Complaints = () => {
         </h4>
       </div>
       <div className="flex flex-col justify-start w-full gap-2 max-h-[600px] overflow-y-auto ">
-        <TicketCard tickets={ticketsData} />
-        <TicketCard tickets={ticketsData} />
+        {tickets.length < 1 ? (
+          <p className="tracking-wide flex w-full justify-center items-center text-xl min-w-[300px] min-h-[300px]">
+            No tickets available !!
+          </p>
+        ) : (
+          <>
+            {!isLoading &&
+              tickets.map((ticket) => (
+                <TicketCard tickets={ticket} key={ticket._id} />
+              ))}
+          </>
+        )}
       </div>
     </div>
   );
