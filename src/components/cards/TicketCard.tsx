@@ -1,9 +1,14 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { TicketCardProps } from "@/@types/Cards";
 import { formatDate } from "@/helpers/DateFormatter";
+import { useToast } from "@/hooks/use-toast";
+import { getUserOnIdService } from "@/service/UserService";
+import { UserDetail } from "@/@types/User";
 
 const TicketCard = ({ tickets }: TicketCardProps) => {
+  const [username, setUsername] = useState<string>("");
+  const { toast } = useToast();
   const severityColor = () => {
     const severity = tickets.severity.toLowerCase().trim();
     if (severity === "high") {
@@ -16,6 +21,33 @@ const TicketCard = ({ tickets }: TicketCardProps) => {
       return "";
     }
   };
+  useEffect(() => {
+    const fetchUsername = async () => {
+      try {
+        if (!tickets.username) return;
+        const response = await getUserOnIdService(tickets.username);
+        if (
+          response.status > 299 ||
+          response.data.statusCode > 299 ||
+          !response.data.success
+        ) {
+          throw new Error("Something went wrong.");
+        }
+        const userData = response.data.data as UserDetail;
+        setUsername(`${userData.firstName} ${userData.lastName}`);
+      } catch (error) {
+        toast({
+          title: "Error fetching user.",
+          description: `${error}`,
+          variant: "destructive",
+          draggable: true,
+        });
+      }
+    };
+
+    fetchUsername();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   return (
     <div className="border rounded-md p-3 flex w-full">
       <div className="flex flex-col justify-start items-start w-full">
@@ -29,7 +61,7 @@ const TicketCard = ({ tickets }: TicketCardProps) => {
         <p className="text-sm text-brandCopy-light text-wrap flex  flex-col gap-1">
           {tickets.description}
           <span className="text-brandCopy-lighter text-xs pt-2">
-            {tickets.username && "-By: " + tickets.username}
+            {tickets.username && "-By: " + username}
           </span>
         </p>
         <p className="pt-2 text-xs text-brandCopy-lighter">
