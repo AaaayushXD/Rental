@@ -1,5 +1,6 @@
+import axios from "axios";
+import { ApiError } from "@/helpers/ApiError";
 import { ApiResponse } from "@/helpers/ApiResponse";
-import axios, { AxiosError } from "axios";
 
 export const getUsersDetailService = async () => {
   try {
@@ -9,8 +10,12 @@ export const getUsersDetailService = async () => {
     }
     return response;
   } catch (error) {
-    const axiosError = error as AxiosError<ApiResponse>;
-    return axiosError;
+    throw new ApiError(
+      400,
+      "Error getting user detail.",
+      null,
+      error as string[]
+    );
   }
 };
 
@@ -24,8 +29,12 @@ export const getUserBasedOnRoleService = async (role: string) => {
     }
     return response;
   } catch (error) {
-    const axiosError = error as AxiosError<ApiResponse>;
-    return axiosError;
+    throw new ApiError(
+      400,
+      "Error getting user based on role.",
+      null,
+      error as string[]
+    );
   }
 };
 
@@ -37,8 +46,12 @@ export const getUserOnIdService = async (id: string) => {
     }
     return response;
   } catch (error) {
-    const axiosError = error as AxiosError<ApiResponse>;
-    return axiosError;
+    throw new ApiError(
+      400,
+      "Error getting user based on their id.",
+      null,
+      error as string[]
+    );
   }
 };
 
@@ -52,7 +65,11 @@ export const getUSerBasedOnPhoneService = async (phone: string) => {
     }
     return response;
   } catch (error) {
-    const axiosError = error as AxiosError<ApiResponse>;
-    return axiosError;
+    throw new ApiError(
+      400,
+      "Error getting user based on phone.",
+      null,
+      error as string[]
+    );
   }
 };

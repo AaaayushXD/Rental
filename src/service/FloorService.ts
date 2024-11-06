@@ -1,7 +1,8 @@
 "use client";
-import axios, { AxiosError } from "axios";
+import axios from "axios";
 import { ApiResponse } from "@/helpers/ApiResponse";
 import { Floor } from "@/@types/Floor";
+import { ApiError } from "@/helpers/ApiError";
 
 export const addFloorService = async (data: Floor) => {
   try {
@@ -11,8 +12,12 @@ export const addFloorService = async (data: Floor) => {
     });
     return response;
   } catch (error) {
-    const axiosError = error as AxiosError<ApiResponse>;
-    return axiosError;
+    throw new ApiError(
+      400,
+      "Error adding floor data.",
+      null,
+      error as string[]
+    );
   }
 };
 
@@ -21,8 +26,12 @@ export const getFloorsDetailService = async () => {
     const response = await axios.get<ApiResponse>("/api/floor/get");
     return response;
   } catch (error) {
-    const axiosError = error as AxiosError<ApiResponse>;
-    return axiosError;
+    throw new ApiError(
+      400,
+      "Error getting floors detail.",
+      null,
+      error as string[]
+    );
   }
 };
 
@@ -31,8 +40,12 @@ export const getFloorDetailService = async (id: string) => {
     const response = await axios.get<ApiResponse>(`/api/floor/get/${id}`);
     return response;
   } catch (error) {
-    const axiosError = error as AxiosError<ApiResponse>;
-    return axiosError;
+    throw new ApiError(
+      400,
+      "Error getting floor based on id.",
+      null,
+      error as string[]
+    );
   }
 };
 
@@ -44,7 +57,11 @@ export const deleteFloorService = async (id: string) => {
     }
     return response;
   } catch (error) {
-    const axiosError = error as AxiosError<ApiResponse>;
-    return axiosError;
+    throw new ApiError(
+      400,
+      "Error deleting floor service.",
+      null,
+      error as string[]
+    );
   }
 };

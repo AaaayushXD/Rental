@@ -1,6 +1,7 @@
+import axios from "axios";
 import { Tenant } from "@/@types/Tenant";
+import { ApiError } from "@/helpers/ApiError";
 import { ApiResponse } from "@/helpers/ApiResponse";
-import axios, { AxiosError } from "axios";
 
 export const assignTenantService = async (data: Tenant) => {
   try {
@@ -15,8 +16,12 @@ export const assignTenantService = async (data: Tenant) => {
     }
     return response;
   } catch (error) {
-    const axiosError = error as AxiosError<ApiResponse>;
-    return axiosError;
+    throw new ApiError(
+      400,
+      "Error assigning tenant to a room.",
+      null,
+      error as string[]
+    );
   }
 };
 
@@ -28,8 +33,12 @@ export const getTenantInfoService = async (roomId: string) => {
     }
     return response;
   } catch (error) {
-    const axiosError = error as AxiosError<ApiResponse>;
-    return axiosError;
+    throw new ApiError(
+      400,
+      "Error getting tenant information.",
+      null,
+      error as string[]
+    );
   }
 };
 
@@ -41,7 +50,11 @@ export const getTenantInfoBasedOnUidService = async (uid: string) => {
     }
     return response;
   } catch (error) {
-    const axiosError = error as AxiosError<ApiResponse>;
-    return axiosError;
+    throw new ApiError(
+      400,
+      "Error getting tenant information based on user id.",
+      null,
+      error as string[]
+    );
   }
 };

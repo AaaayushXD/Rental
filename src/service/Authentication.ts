@@ -1,6 +1,7 @@
-import axios, { AxiosError } from "axios";
+import axios from "axios";
 import { SignUpProps } from "@/@types/Authentication";
 import { ApiResponse } from "@/helpers/ApiResponse";
+import { ApiError } from "@/helpers/ApiError";
 
 export const signUpService = async (
   data: SignUpProps,
@@ -13,8 +14,6 @@ export const signUpService = async (
     });
     return response;
   } catch (error) {
-    console.error(error);
-    const axiosError = error as AxiosError<ApiResponse>;
-    return axiosError;
+    throw new ApiError(400, "Sign up service failed.", null, error as string[]);
   }
 };

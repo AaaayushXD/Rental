@@ -1,6 +1,7 @@
+import axios from "axios";
 import { Room } from "@/@types/Room";
+import { ApiError } from "@/helpers/ApiError";
 import { ApiResponse } from "@/helpers/ApiResponse";
-import axios, { AxiosError } from "axios";
 
 export const addRoomServices = async (data: Room) => {
   try {
@@ -19,8 +20,12 @@ export const addRoomServices = async (data: Room) => {
     }
     return response;
   } catch (error) {
-    const axiosError = error as AxiosError<ApiResponse>;
-    return axiosError;
+    throw new ApiError(
+      400,
+      "Error adding room details.",
+      null,
+      error as string[]
+    );
   }
 };
 
@@ -32,8 +37,12 @@ export const getRoomsBasedOnFloorService = async (no: string) => {
     }
     return response;
   } catch (error) {
-    const axiosError = error as AxiosError<ApiResponse>;
-    return axiosError;
+    throw new ApiError(
+      400,
+      "Error getting rooms based on floor.",
+      null,
+      error as string[]
+    );
   }
 };
 
@@ -45,8 +54,12 @@ export const getRoomsBasedOnIdService = async (id: string) => {
     }
     return response;
   } catch (error) {
-    const axiosError = error as AxiosError<ApiResponse>;
-    return axiosError;
+    throw new ApiError(
+      400,
+      "Error getting room based on id.",
+      null,
+      error as string[]
+    );
   }
 };
 
@@ -60,7 +73,11 @@ export const deleteAllRoomsOfAFloorService = async (id: string) => {
     }
     return response;
   } catch (error) {
-    const axiosError = error as AxiosError<ApiResponse>;
-    return axiosError;
+    throw new ApiError(
+      400,
+      "Error deleting room detail.",
+      null,
+      error as string[]
+    );
   }
 };

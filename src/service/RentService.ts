@@ -1,14 +1,19 @@
+import axios from "axios";
 import { Rent } from "@/@types/Rent";
+import { ApiError } from "@/helpers/ApiError";
 import { ApiResponse } from "@/helpers/ApiResponse";
-import axios, { AxiosError } from "axios";
 
 export const getRentDetailService = async (id: string) => {
   try {
     const response = await axios.get<ApiResponse>(`/api/rent/${id}`);
     return response;
   } catch (error) {
-    const axiosError = error as AxiosError<ApiResponse>;
-    return axiosError;
+    throw new ApiError(
+      400,
+      "Error getting rent details.",
+      null,
+      error as string[]
+    );
   }
 };
 
@@ -25,8 +30,12 @@ export const addRentservice = async (data: Rent) => {
     }
     return response;
   } catch (error) {
-    const axiosError = error as AxiosError<ApiResponse>;
-    return axiosError;
+    throw new ApiError(
+      400,
+      "Error adding rent detail.",
+      null,
+      error as string[]
+    );
   }
 };
 

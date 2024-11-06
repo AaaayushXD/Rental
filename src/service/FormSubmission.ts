@@ -1,7 +1,8 @@
 "use client";
-import axios, { AxiosError } from "axios";
+import axios from "axios";
 import { ApiResponse } from "@/helpers/ApiResponse";
 import { ContactForm } from "@/@types/ContactForm";
+import { ApiError } from "@/helpers/ApiError";
 
 export const contactFormService = async (data: ContactForm) => {
   try {
@@ -12,7 +13,11 @@ export const contactFormService = async (data: ContactForm) => {
     );
     return response;
   } catch (error) {
-    const axiosError = error as AxiosError<ApiResponse>;
-    return axiosError;
+    throw new ApiError(
+      400,
+      "Error adding contact information.",
+      null,
+      error as string[]
+    );
   }
 };
