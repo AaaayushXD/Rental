@@ -5,9 +5,6 @@ import { ApiResponse } from "@/helpers/ApiResponse";
 export const getUsersDetailService = async () => {
   try {
     const response = await axios.get<ApiResponse>(`/api/user/get/`);
-    if (Boolean(response.data.success) === false) {
-      throw new Error("Something went wrong while getting user detail.");
-    }
     return response;
   } catch (error) {
     throw new ApiError(
@@ -22,11 +19,6 @@ export const getUsersDetailService = async () => {
 export const getUserBasedOnRoleService = async (role: string) => {
   try {
     const response = await axios.get<ApiResponse>(`/api/user/${role}`);
-    if (Boolean(response.data.success) === false) {
-      throw new Error(
-        "Something went wrong while getting user based on role ."
-      );
-    }
     return response;
   } catch (error) {
     throw new ApiError(
@@ -41,9 +33,6 @@ export const getUserBasedOnRoleService = async (role: string) => {
 export const getUserOnIdService = async (id: string) => {
   try {
     const response = await axios.get<ApiResponse>(`/api/user/get/${id}`);
-    if (Boolean(response.data.success) === false) {
-      throw new Error("Something went wrong getting user.");
-    }
     return response;
   } catch (error) {
     throw new ApiError(
@@ -60,9 +49,6 @@ export const getUSerBasedOnPhoneService = async (phone: string) => {
     const response = await axios.get<ApiResponse>(
       `/api/user/get/phone/${phone}`
     );
-    if (Boolean(response.data.success) === false) {
-      throw new Error("Something went wrong getting user.");
-    }
     return response;
   } catch (error) {
     throw new ApiError(

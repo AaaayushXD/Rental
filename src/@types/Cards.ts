@@ -1,5 +1,7 @@
+import { PaymentDetail } from "./Payment";
+
 export interface RecentPaymentProps {
-  payments: RecentPayments;
+  payments: PaymentDetail;
 }
 export interface RecentPayments {
   avatar: string;
