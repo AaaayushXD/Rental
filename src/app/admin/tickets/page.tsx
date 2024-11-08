@@ -1,5 +1,4 @@
 "use client";
-import TicketCard from "@/components/cards/TicketCard";
 import {
   Pagination,
   PaginationContent,
@@ -11,10 +10,40 @@ import {
 } from "@/components/ui/pagination";
 import { Tabs, TabsContent, TabsList } from "@/components/ui/tabs";
 import { TabsTrigger } from "@radix-ui/react-tabs";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import BoilerPlate from "../BoilerPlate";
+import { useToast } from "@/hooks/use-toast";
+import { fetchTickets } from "@/service/ComplaintService";
+import { ApiError } from "@/helpers/ApiError";
+import { TicketDetail } from "@/@types/Cards";
 
 const Page = () => {
+  const [tickets, setTickets] = useState<TicketDetail[]>([]);
+  const [currentStatus, setCurrentStatus] = useState<string>("");
+  const { toast } = useToast();
+  const fetchTicket = async (status: string) => {
+    try {
+      const ticketResponse = await fetchTickets(status);
+      if (
+        ticketResponse.status > 299 ||
+        ticketResponse.data.statusCode > 299 ||
+        !ticketResponse.data.success
+      ) {
+        throw new ApiError(400, "Something went wrong.");
+      }
+      const ticketsData = ticketResponse.data.data as TicketDetail[];
+      setTickets(ticketsData);
+    } catch (error) {
+      toast({
+        title: "Error fetching tickets.",
+        description: `${error}`,
+        variant: "destructive",
+      });
+    }
+  };
+  useEffect(() => {
+    fetchTicket("pending");
+  }, []);
   return (
     <BoilerPlate>
       <div className="flex w-full h-full justify-center items-center p-5 bg-brandForeground">
@@ -25,42 +54,64 @@ const Page = () => {
           <div className="w-full flex flex-col gap-5 justify-start items-start">
             <Tabs defaultValue="pending" className="w-full">
               <TabsList className="w-full flex-grow flex gap-5 justify-evenly">
-                <TabsTrigger value="pending">Pending</TabsTrigger>
-                <TabsTrigger value="processing">Processing</TabsTrigger>
-                <TabsTrigger value="resolved">Resolved</TabsTrigger>
-                <TabsTrigger value="cancelled">Cancelled</TabsTrigger>
+                <TabsTrigger
+                  className="transition-colors duration-200 TabsTrigger"
+                  value="pending"
+                  onClick={() => {
+                    if (currentStatus === "pending") return;
+                    fetchTicket("pending");
+                    setCurrentStatus("pending");
+                  }}
+                >
+                  Pending
+                </TabsTrigger>
+                <TabsTrigger
+                  className="transition-colors duration-200"
+                  value="processing"
+                  onClick={() => {
+                    fetchTicket("processing");
+                    setCurrentStatus("processing");
+                  }}
+                >
+                  Processing
+                </TabsTrigger>
+                <TabsTrigger
+                  className="transition-colors duration-200"
+                  value="resolved"
+                  onClick={() => {
+                    fetchTicket("resolved");
+                    setCurrentStatus("resolved");
+                  }}
+                >
+                  Resolved
+                </TabsTrigger>
+                <TabsTrigger
+                  className="transition-colors duration-200"
+                  value="cancelled"
+                  onClick={() => {
+                    fetchTicket("cancelled");
+                    setCurrentStatus("cancelled");
+                  }}
+                >
+                  Cancelled
+                </TabsTrigger>
               </TabsList>
               <TabsContent
                 value="pending"
                 className="flex flex-col gap-3 justify-start items-start"
-              >
-                <TicketCard />
-                <TicketCard />
-                <TicketCard />
-              </TabsContent>
+              ></TabsContent>
               <TabsContent
                 value="processing"
                 className="flex flex-col gap-3 justify-start items-start"
-              >
-                <TicketCard />
-                <TicketCard />
-              </TabsContent>
+              ></TabsContent>
               <TabsContent
                 value="resolved"
                 className="flex flex-col gap-3 justify-start items-start"
-              >
-                <TicketCard />
-                <TicketCard />
-                <TicketCard />
-                <TicketCard />
-              </TabsContent>
+              ></TabsContent>
               <TabsContent
                 value="cancelled"
                 className="flex flex-col gap-3 justify-start items-start"
-              >
-                <TicketCard />
-                <TicketCard />
-              </TabsContent>
+              ></TabsContent>
             </Tabs>
             <Pagination>
               <PaginationContent>

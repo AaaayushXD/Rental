@@ -44,14 +44,14 @@ export const getAllTickets = async () => {
     );
   }
 };
-export const fetchTickets = async () => {
+export const fetchTickets = async (status: string) => {
   try {
-    const response = await axios.get<ApiResponse>(`/api/ticket/get/severity `);
+    const response = await axios.get<ApiResponse>(`/api/ticket/get/${status} `);
     return response;
   } catch (error) {
     throw new ApiError(
       400,
-      "Error adding new tickets.",
+      "Error getting tickets based on status.",
       null,
       error as string[]
     );
